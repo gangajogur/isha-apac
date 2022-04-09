@@ -6,17 +6,17 @@ import { finalize, map, scan } from 'rxjs/operators';
 import { InjectionTokens } from '../constants/core.constants';
 import { ApiResponseEntity } from '../entities/api-response.model';
 import { Environment } from '../entities/environment';
-import { DateService } from './date/date.service';
+import { DayjsDateService } from './date/dayjs/dayjs.date.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BackendService {
   constructor(
     private http: HttpClient,
     @Inject(InjectionTokens.environment)
     private environment: Environment,
-    private dateService: DateService
+    private dateService: DayjsDateService
   ) {
     // this.url = `http://localhost:8080`;
   }
@@ -31,7 +31,7 @@ export class BackendService {
       else state = state - 1;
       return state;
     }, 0),
-    map((state) => {
+    map(state => {
       return state > 0;
     })
   ) as Subject<boolean>;
@@ -57,9 +57,9 @@ export class BackendService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       }),
-      withCredentials: true,
+      withCredentials: true
     };
 
     this.loadingChange$.next(true);
@@ -85,28 +85,22 @@ export class BackendService {
   post<T>(endpoint: string, payload: any): Observable<ApiResponseEntity<T>> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       }),
-      withCredentials: true,
+      withCredentials: true
     };
 
     const params = Object.keys(payload)
-      .map((k) => this.getPayloadProp(payload, k))
+      .map(k => this.getPayloadProp(payload, k))
       .filter(Boolean)
       .join('&');
 
     this.loadingChange$.next(true);
-    return this.http
-      .post<ApiResponseEntity<T>>(
-        `${this.url}/${endpoint}`,
-        params,
-        httpOptions
-      )
-      .pipe(
-        finalize(() => {
-          this.loadingChange$.next(false);
-        })
-      );
+    return this.http.post<ApiResponseEntity<T>>(`${this.url}/${endpoint}`, params, httpOptions).pipe(
+      finalize(() => {
+        this.loadingChange$.next(false);
+      })
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -129,16 +123,13 @@ export class BackendService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getArrayPayloadProp(key: string, value: any[]): string {
-    return value.map((val) => this.getSimplePayloadProp(key, val)).join('&');
+    return value.map(val => this.getSimplePayloadProp(key, val)).join('&');
   }
 
   getCountry() {
     this.loadingChange$.next(true);
     return this.http
-      .get(
-        'https://asia-east2-ishacrmserver.cloudfunctions.net/geo-redirect/getCountry',
-        { responseType: 'text' }
-      )
+      .get('https://asia-east2-ishacrmserver.cloudfunctions.net/geo-redirect/getCountry', { responseType: 'text' })
       .pipe(
         finalize(() => {
           this.loadingChange$.next(false);
@@ -150,24 +141,19 @@ export class BackendService {
     const formUrl = 'https://script.google.com/macros/s/' + scriptId + '/exec';
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
     };
 
     this.loadingChange$.next(true);
-    return this.http
-      .post(formUrl, new HttpParams({ fromObject: params }), httpOptions)
-      .pipe(
-        finalize(() => {
-          this.loadingChange$.next(false);
-        })
-      );
+    return this.http.post(formUrl, new HttpParams({ fromObject: params }), httpOptions).pipe(
+      finalize(() => {
+        this.loadingChange$.next(false);
+      })
+    );
   }
 
-  public hasLoadedFromCache<T>(
-    behaviourSubject: BehaviorSubject<ApiResponseEntity<T>>,
-    useCache: boolean
-  ): boolean {
+  public hasLoadedFromCache<T>(behaviourSubject: BehaviorSubject<ApiResponseEntity<T>>, useCache: boolean): boolean {
     const cache = behaviourSubject.getValue();
     const hasCacheValue = Object.keys((cache && cache.object) || {}).length > 0;
     if (useCache && hasCacheValue) {
