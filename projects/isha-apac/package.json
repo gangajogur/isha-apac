@@ -1,6 +1,6 @@
 {
-  "name": "isha-apac",
-  "version": "0.0.1",
+  "name": "@gangajogur/isha-apac",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0"
@@ -12,5 +12,8 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.181"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
