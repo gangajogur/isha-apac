@@ -3,12 +3,13 @@
   "schematics": {
     "ng-add": {
       "description": "Add my library to the project.",
-      "factory": "./ng-add/index#ngAdd"
+      "factory": "./ng-add/index#ngAdd",
+      "schema": "./schema.json"
     },
     "setup-ide": {
       "description": "Add vscode IDE setup files in .vscode folder",
       "factory": "./ide-setup/index#setupIde",
-      "schema": "./ide-setup/schema.json"
+      "schema": "./schema.json"
     }
   }
 }
