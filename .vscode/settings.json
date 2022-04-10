@@ -9,11 +9,14 @@
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
+  "editor.autoIndent": "full",
   // On save, run both fixAll and organizeImports source actions
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     "source.organizeImports": true
-  }
+  },
+  "html.format.wrapLineLength": 200
 }

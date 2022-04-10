@@ -1,6 +1,14 @@
 {
   "name": "@gangajogur/isha-apac",
-  "version": "0.0.2",
+  "version": "0.0.5",
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/isha-apac/"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
   "peerDependencies": {
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0"
@@ -11,7 +19,9 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.181"
+    "@types/lodash": "^4.14.181",
+    "copyfiles": "^2.4.1",
+    "typescript": "^4.6.3"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
