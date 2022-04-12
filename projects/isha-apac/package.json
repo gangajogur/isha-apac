@@ -1,9 +1,9 @@
 {
   "name": "@gangajogur/isha-apac",
-  "version": "0.0.5",
+  "version": "0.0.12",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
-    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/isha-apac/"
+    "postbuild": "copyfiles schematics/**/schema.json schematics/*/files/** schematics/collection.json ../../dist/isha-apac/ && copyfiles -u 2 ../../.vscode/**/* ../../dist/isha-apac/schematics/ide-setup/files"
   },
   "schematics": "./schematics/collection.json",
   "ng-add": {
