@@ -1,13 +1,16 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask, RunSchematicTask } from '@angular-devkit/schematics/tasks';
-import { BaseSchema } from '../base.schema';
+import { NgAddSchema } from './schema';
 
 // Just return the tree
-export function ngAdd(options: BaseSchema): Rule {
+export function ngAdd(options: NgAddSchema): Rule {
   // @ts-ignore
   return (tree: Tree, context: SchematicContext) => {
     context.addTask(new NodePackageInstallTask());
     context.addTask(new RunSchematicTask('setup-ide', options));
+    if (options.i18n) {
+      context.addTask(new RunSchematicTask('setup-i18n', options));
+    }
     return tree;
   };
 }

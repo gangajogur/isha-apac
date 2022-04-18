@@ -10,6 +10,11 @@
       "description": "Add vscode IDE setup files in .vscode folder",
       "factory": "./ide-setup/index#setupIde",
       "schema": "./schema.json"
+    },
+    "setup-i18n": {
+      "description": "Add internationalisation (i18n) support",
+      "factory": "./setup-i18n/index#setupI18n",
+      "schema": "./setup-i18n/schema.json"
     }
   }
 }
