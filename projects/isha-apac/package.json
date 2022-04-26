@@ -16,7 +16,9 @@
   "dependencies": {
     "dayjs": "^1.11.0",
     "lodash": "^4.17.21",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@ngx-translate/core": "^14.0.0",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.181",
