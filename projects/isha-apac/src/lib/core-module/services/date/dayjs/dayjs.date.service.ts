@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import * as dayjs from 'dayjs';
-import * as customParseFormat from 'dayjs/plugin/customParseFormat';
-import * as utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import utc from 'dayjs/plugin/utc';
 import { DayjsDateConstants } from './dayjs.date.constants';
+
 @Injectable({
   providedIn: 'root'
 })
