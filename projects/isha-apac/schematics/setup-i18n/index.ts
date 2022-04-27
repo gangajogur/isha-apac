@@ -14,7 +14,6 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addModuleImportToModule } from '@angular/cdk/schematics';
 import { addPackageJsonDependency, NodeDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { BaseSchema } from '../base.schema';
-import { getProjectPath } from '../helpers/schematics-helper';
 
 // @ts-ignore
 export function setupI18n(schema: BaseSchema): Rule {
@@ -41,9 +40,9 @@ function copyResources(): Rule {
 function addModuleImport(schema: BaseSchema): Rule {
   return async (host: Tree) => {
     // @ts-ignore
-    const projectPath = await getProjectPath(host, schema);
-    console.log(`projectPath: ${projectPath}`);
-    addModuleImportToModule(host, `/src/app/app.module.ts`, 'I18NModule', './i18n/i18n.module');
+    // const projectPath = await getProjectPath(host, schema);
+    // console.log(`projectPath: ${projectPath}`);
+    addModuleImportToModule(host, `/src/app/shared/shared.module.ts`, 'I18NModule', '@gangajogur/isha-apac');
     // return host;
   };
 }
@@ -53,8 +52,8 @@ function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
       { type: NodeDependencyType.Default, version: '^14.0.0', name: '@ngx-translate/core' },
-      { type: NodeDependencyType.Default, version: '^4.1.0', name: 'js-yaml' },
-      { type: NodeDependencyType.Default, version: '^0.0.18', name: '@gangajogur/isha-apac' }
+      { type: NodeDependencyType.Default, version: '^4.1.0', name: 'js-yaml' }
+      // { type: NodeDependencyType.Default, version: '^0.0.19', name: '@gangajogur/isha-apac' }
     ];
 
     dependencies.forEach(dependency => {
