@@ -13,6 +13,7 @@ import {
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addModuleImportToModule } from '@angular/cdk/schematics';
 import { addPackageJsonDependency, NodeDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
+import { SchematicConstants } from '../schematics.constants';
 
 // @ts-ignore
 export function setupI18n(): Rule {
@@ -33,7 +34,7 @@ function copyResources(): Rule {
 function addModuleImport(): Rule {
   return (host: Tree) => {
     // const projectPath = await getProjectPath(host, schema);
-    addModuleImportToModule(host, `/src/app/app.module.ts`, 'I18NModule', './i18n/i18n.module');
+    addModuleImportToModule(host, `/src/app/shared/shared.module.ts`, 'I18NModule', '../i18n/i18n.module');
     return host;
   };
 }
@@ -41,6 +42,11 @@ function addModuleImport(): Rule {
 function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
+      {
+        type: NodeDependencyType.Default,
+        version: SchematicConstants.IshaApacLibraryVersion,
+        name: '@gangajogur/isha-apac'
+      },
       { type: NodeDependencyType.Default, version: '^14.0.0', name: '@ngx-translate/core' },
       { type: NodeDependencyType.Default, version: '^4.1.0', name: 'js-yaml' }
     ];
