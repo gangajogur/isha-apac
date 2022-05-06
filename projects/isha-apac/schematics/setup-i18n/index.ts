@@ -56,7 +56,8 @@ function addImportExportToModule(): Rule {
 
 function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const dependencies: NodeDependency[] = Packages.map(
+    const packages = [Packages.IshaApac, Packages.NgxTranslate, Packages.JsYaml];
+    const dependencies: NodeDependency[] = packages.map(
       pkg =>
         ({
           type: NodeDependencyType.Default,
