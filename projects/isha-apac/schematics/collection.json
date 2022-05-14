@@ -15,6 +15,11 @@
       "description": "Add internationalisation (i18n) support",
       "factory": "./setup-i18n/index#setupI18n",
       "schema": "./setup-i18n/schema.json"
+    },
+    "shared-module": {
+      "description": "Add shared module",
+      "factory": "./shared-module/index#setupSharedModule",
+      "schema": "./shared-module/schema.json"
     }
   }
 }

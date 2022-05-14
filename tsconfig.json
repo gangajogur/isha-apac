@@ -9,7 +9,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "isha-apac": ["dist/isha-apac-local/isha-apac-local", "dist/isha-apac-local"]
+      "@gangajogur/isha-apac": ["dist/isha-apac"]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,

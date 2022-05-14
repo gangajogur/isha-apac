@@ -8,6 +8,7 @@ export function ngAdd(options: NgAddSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.addTask(new NodePackageInstallTask());
     context.addTask(new RunSchematicTask('setup-ide', options));
+    context.addTask(new RunSchematicTask('shared-module', options));
     if (options.i18n) {
       context.addTask(new RunSchematicTask('setup-i18n', options));
     }
