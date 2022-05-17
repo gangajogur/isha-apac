@@ -40,10 +40,10 @@ function copyResources(): Rule {
 function addImportExportToModule(): Rule {
   return (host: Tree) => {
     const modulePath = '/src/app/shared/shared.module.ts';
-    addModuleImportToModule(host, modulePath, 'I18NModule', '../i18n/i18n.module');
+    addModuleImportToModule(host, modulePath, 'I18NModule', '@gangajogur/isha-apac');
     const exportRecorder = host.beginUpdate(modulePath);
     const source = parseSourceFile(host, modulePath);
-    const exportChanges = addExportToModule(source, modulePath, 'I18NModule', '../i18n/i18n.module');
+    const exportChanges = addExportToModule(source, modulePath, 'I18NModule', '@gangajogur/isha-apac');
     for (const change of exportChanges) {
       if (change instanceof InsertChange) {
         exportRecorder.insertLeft(change.pos, change.toAdd);
@@ -54,6 +54,7 @@ function addImportExportToModule(): Rule {
   };
 }
 
+// @ts-ignore
 function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.IshaApac, Packages.NgxTranslate, Packages.JsYaml];
@@ -75,6 +76,7 @@ function addPackageJsonDependencies(): Rule {
   };
 }
 
+// @ts-ignore
 function installPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     context.addTask(new NodePackageInstallTask());
