@@ -1,7 +1,7 @@
 export const Packages = {
   IshaApac: {
     name: '@gangajogur/isha-apac',
-    version: '0.0.19'
+    version: '0.0.21'
   },
   NgxTranslate: {
     name: '@ngx-translate/core',

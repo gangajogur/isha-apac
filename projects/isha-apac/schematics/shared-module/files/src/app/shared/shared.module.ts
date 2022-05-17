@@ -1,4 +1,13 @@
 import { NgModule } from '@angular/core';
+import { InjectionTokens } from '@gangajogur/isha-apac';
+import { environment } from '../../environments/environment';
 
-@NgModule({})
+@NgModule({
+  providers: [
+    {
+      provide: InjectionTokens.environment,
+      useValue: environment
+    }
+  ]
+})
 export class SharedModule {}

@@ -10,13 +10,15 @@ import { Environment } from '../entities/environment';
   providedIn: 'root'
 })
 export class BackendService {
+  baseUrl: string;
+
   constructor(
     private http: HttpClient,
     @Inject(InjectionTokens.environment)
     private environment: Environment
-  ) {}
-
-  baseUrl = this.environment.backendUrl; // `http://localhost:8080`; // `https://crmt.ishayoga.live`;
+  ) {
+    this.baseUrl = environment.backendUrl;
+  }
 
   loadingChange$ = new Subject<boolean>().pipe(
     scan((state, isLoading) => {
