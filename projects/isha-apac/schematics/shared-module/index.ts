@@ -5,18 +5,35 @@ import { applyToUpdateRecorder, Change } from '@schematics/angular/utility/chang
 import { addPackagesJsonDependencies } from '../helpers/schematics-helper';
 import { Packages } from '../schematics.constants';
 
+const modulePath = '/src/app/shared/shared.module.ts';
+
 // @ts-ignore
 export function setupSharedModule(): Rule {
   // @ts-ignore
   return async (host: Tree, context: SchematicContext) => {
     context.logger.log('info', 'Setting up shared module');
-    return chain([copyResources(), addPackageJsonDependencies(), addInectionTokenProviderToModule()]);
+    return chain([
+      copyResources(),
+      copyOptionalFiles(),
+      addPackageJsonDependencies(),
+      addInectionTokenProviderToModule()
+    ]);
   };
 }
 
 function copyResources(): Rule {
   return () => {
     const templateSource = apply(url('./files'), [move(normalize(``))]);
+    return mergeWith(templateSource);
+  };
+}
+
+function copyOptionalFiles(): Rule {
+  return (host: Tree) => {
+    if (host.exists(modulePath)) {
+      return;
+    }
+    const templateSource = apply(url('./files-optional'), [move(normalize(``))]);
     return mergeWith(templateSource);
   };
 }
@@ -32,7 +49,10 @@ function addPackageJsonDependencies(): Rule {
 
 function addInectionTokenProviderToModule(): Rule {
   return (host: Tree) => {
-    const modulePath = '/src/app/shared/shared.module.ts';
+    if (!host.exists(modulePath)) {
+      return;
+    }
+
     const source = parseSourceFile(host, modulePath);
 
     const exportChanges = addSymbolToNgModuleMetadata(
