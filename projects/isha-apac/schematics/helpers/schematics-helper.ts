@@ -1,6 +1,8 @@
 import { virtualFs, workspaces } from '@angular-devkit/core';
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { addPackageJsonDependency, NodeDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { BaseSchema } from '../base.schema';
+import { PackageInfo } from '../schematics.constants';
 
 export function createHost(tree: Tree): workspaces.WorkspaceHost {
   return {
@@ -61,4 +63,20 @@ export async function getWorkspace(tree: Tree): Promise<workspaces.WorkspaceDefi
   const host = createHost(tree);
   const { workspace } = await workspaces.readWorkspace('/', host);
   return workspace;
+}
+
+export function addPackagesJsonDependencies(host: Tree, context: SchematicContext, packages: PackageInfo[]) {
+  const dependencies: NodeDependency[] = packages.map(
+    pkg =>
+      ({
+        type: NodeDependencyType.Default,
+        version: pkg.version,
+        name: pkg.name
+      } as NodeDependency)
+  );
+
+  dependencies.forEach(dependency => {
+    addPackageJsonDependency(host, dependency);
+    context.logger.log('info', `✅️ Added "${dependency.name}" into ${dependency.type}`);
+  });
 }

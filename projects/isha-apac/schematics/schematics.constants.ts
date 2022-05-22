@@ -1,7 +1,18 @@
-export const Packages = {
+export interface PackageInfo {
+  name: string;
+  version: string;
+}
+
+export interface PackagesList {
+  IshaApac: PackageInfo;
+  NgxTranslate: PackageInfo;
+  JsYaml: PackageInfo;
+}
+
+export const Packages: PackagesList = {
   IshaApac: {
     name: '@gangajogur/isha-apac',
-    version: '0.0.24'
+    version: '0.0.33'
   },
   NgxTranslate: {
     name: '@ngx-translate/core',

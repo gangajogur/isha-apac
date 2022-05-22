@@ -13,7 +13,7 @@ import {
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addExportToModule, addModuleImportToModule, parseSourceFile } from '@angular/cdk/schematics';
 import { InsertChange } from '@schematics/angular/utility/change';
-import { addPackageJsonDependency, NodeDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
+import { addPackagesJsonDependencies } from '../helpers/schematics-helper';
 import { Packages } from '../schematics.constants';
 
 // @ts-ignore
@@ -58,19 +58,7 @@ function addImportExportToModule(): Rule {
 function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.IshaApac, Packages.NgxTranslate, Packages.JsYaml];
-    const dependencies: NodeDependency[] = packages.map(
-      pkg =>
-        ({
-          type: NodeDependencyType.Default,
-          version: pkg.version,
-          name: pkg.name
-        } as NodeDependency)
-    );
-
-    dependencies.forEach(dependency => {
-      addPackageJsonDependency(host, dependency);
-      context.logger.log('info', `✅️ Added "${dependency.name}" into ${dependency.type}`);
-    });
+    addPackagesJsonDependencies(host, context, packages);
 
     return host;
   };
