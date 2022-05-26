@@ -1,9 +1,11 @@
 {
   "name": "@gangajogur/isha-apac",
-  "version": "0.0.36",
+  "version": "0.0.47",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
-    "postbuild": "copyfiles schematics/**/schema.json schematics/*/files/** schematics/*/files-optional/** schematics/collection.json ../../dist/isha-apac/ && copyfiles -u 2 ../../.vscode/**/* ../../dist/isha-apac/schematics/ide-setup/files"
+    "postbuild": "copyfiles schematics/**/schema.json schematics/*/files/** schematics/*/files-optional/** schematics/collection.json ../../dist/isha-apac/ && copyfiles -u 2 ../../.vscode/**/* ../../dist/isha-apac/schematics/ide-setup/files",
+    "publish": "npm run clean && ng build isha-apac && npm run build && cd ../../dist/isha-apac && npm pack && npm publish",
+    "clean": "cd ../../node_modules/.bin && rimraf ../../dist/*"
   },
   "schematics": "./schematics/collection.json",
   "ng-add": {

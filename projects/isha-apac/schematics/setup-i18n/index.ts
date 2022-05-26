@@ -6,22 +6,25 @@ import {
   mergeWith,
   move,
   Rule,
+  schematic,
   SchematicContext,
   Tree,
   url
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addExportToModule, addModuleImportToModule, parseSourceFile } from '@angular/cdk/schematics';
-import { InsertChange } from '@schematics/angular/utility/change';
-import { addPackagesJsonDependencies } from '../helpers/schematics-helper';
-import { Packages } from '../schematics.constants';
+import { BaseSchema } from '../base.schema';
+import { addPackagesJsonDependencies, commitChange } from '../helpers/schematics-helper';
+import { Packages, SharedModulePath } from '../schematics.constants';
 
 // @ts-ignore
-export function setupI18n(): Rule {
+export function setupI18n(options: BaseSchema): Rule {
   // @ts-ignore
   return async (host: Tree, context: SchematicContext) => {
     context.logger.log('info', 'Setting up internationalisation (i18n)');
+
     return chain([
+      schematic('shared-module', options),
       copyResources(),
       addImportExportToModule(),
       addPackageJsonDependencies(),
@@ -30,6 +33,7 @@ export function setupI18n(): Rule {
   };
 }
 
+// @ts-ignore
 function copyResources(): Rule {
   return () => {
     const templateSource = apply(url('./files'), [move(normalize(``))]);
@@ -37,19 +41,13 @@ function copyResources(): Rule {
   };
 }
 
+// @ts-ignore
 function addImportExportToModule(): Rule {
   return (host: Tree) => {
-    const modulePath = '/src/app/shared/shared.module.ts';
-    addModuleImportToModule(host, modulePath, 'I18NModule', '@gangajogur/isha-apac');
-    const exportRecorder = host.beginUpdate(modulePath);
-    const source = parseSourceFile(host, modulePath);
-    const exportChanges = addExportToModule(source, modulePath, 'I18NModule', '@gangajogur/isha-apac');
-    for (const change of exportChanges) {
-      if (change instanceof InsertChange) {
-        exportRecorder.insertLeft(change.pos, change.toAdd);
-      }
-    }
-    host.commitUpdate(exportRecorder);
+    addModuleImportToModule(host, SharedModulePath, 'I18NModule', Packages.IshaApac.name);
+    const source = parseSourceFile(host, SharedModulePath);
+    const exportChanges = addExportToModule(source, SharedModulePath, 'I18NModule', Packages.IshaApac.name);
+    commitChange(host, SharedModulePath, exportChanges);
     return host;
   };
 }
@@ -59,7 +57,6 @@ function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.IshaApac, Packages.NgxTranslate, Packages.JsYaml];
     addPackagesJsonDependencies(host, context, packages);
-
     return host;
   };
 }
@@ -69,7 +66,6 @@ function installPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     context.addTask(new NodePackageInstallTask());
     context.logger.log('info', `🔍 Installing packages...`);
-
     return host;
   };
 }

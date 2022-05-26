@@ -1,11 +1,8 @@
 import { normalize } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, SchematicContext, Tree, url } from '@angular-devkit/schematics';
 import { addSymbolToNgModuleMetadata, insertImport, parseSourceFile } from '@angular/cdk/schematics';
-import { applyToUpdateRecorder, Change } from '@schematics/angular/utility/change';
-import { addPackagesJsonDependencies } from '../helpers/schematics-helper';
-import { Packages } from '../schematics.constants';
-
-const modulePath = '/src/app/shared/shared.module.ts';
+import { addPackagesJsonDependencies, commitChange } from '../helpers/schematics-helper';
+import { Packages, SharedModulePath } from '../schematics.constants';
 
 // @ts-ignore
 export function setupSharedModule(): Rule {
@@ -30,7 +27,7 @@ function copyResources(): Rule {
 
 function copyOptionalFiles(): Rule {
   return (host: Tree) => {
-    if (host.exists(modulePath)) {
+    if (host.exists(SharedModulePath)) {
       return;
     }
     const templateSource = apply(url('./files-optional'), [move(normalize(``))]);
@@ -49,33 +46,37 @@ function addPackageJsonDependencies(): Rule {
 
 function addInectionTokenProviderToModule(): Rule {
   return (host: Tree) => {
-    if (!host.exists(modulePath)) {
+    if (!host.exists(SharedModulePath)) {
       return;
     }
 
-    const source = parseSourceFile(host, modulePath);
+    const source = parseSourceFile(host, SharedModulePath);
 
     const exportChanges = addSymbolToNgModuleMetadata(
       source,
-      modulePath,
+      SharedModulePath,
       'providers',
       `{provide: InjectionTokens.environment,useValue: environment}`,
       null
     );
-    commitChange(host, modulePath, exportChanges);
+    commitChange(host, SharedModulePath, exportChanges);
 
-    const injectionTokenImportChange = insertImport(source, modulePath, 'InjectionTokens', '@gangajogur/isha-apac');
-    commitChange(host, modulePath, [injectionTokenImportChange]);
+    const injectionTokenImportChange = insertImport(
+      source,
+      SharedModulePath,
+      'InjectionTokens',
+      Packages.IshaApac.name
+    );
+    commitChange(host, SharedModulePath, [injectionTokenImportChange]);
 
-    const environmentImportChange = insertImport(source, modulePath, 'environment', '../../environments/environment');
-    commitChange(host, modulePath, [environmentImportChange]);
+    const environmentImportChange = insertImport(
+      source,
+      SharedModulePath,
+      'environment',
+      '../../environments/environment'
+    );
+    commitChange(host, SharedModulePath, [environmentImportChange]);
 
     return host;
   };
-}
-
-function commitChange(host: Tree, modulePath: string, changes: Change[]) {
-  const injectionTokenImportRecorder = host.beginUpdate(modulePath);
-  applyToUpdateRecorder(injectionTokenImportRecorder, changes);
-  host.commitUpdate(injectionTokenImportRecorder);
 }

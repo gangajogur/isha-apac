@@ -12,7 +12,7 @@ export interface PackagesList {
 export const Packages: PackagesList = {
   IshaApac: {
     name: '@gangajogur/isha-apac',
-    version: '0.0.33'
+    version: '0.0.47'
   },
   NgxTranslate: {
     name: '@ngx-translate/core',
@@ -23,3 +23,5 @@ export const Packages: PackagesList = {
     version: '^4.1.0'
   }
 };
+
+export const SharedModulePath = '/src/app/shared/shared.module.ts';
