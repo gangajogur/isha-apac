@@ -11,10 +11,13 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addExportToModule, addModuleImportToModule, parseSourceFile } from '@angular/cdk/schematics';
 import { BaseSchema } from '../base.schema';
-import { addPackagesJsonDependencies, commitChange } from '../helpers/schematics-helper';
+import {
+  addPackagesJsonDependencies,
+  commitChange,
+  installPackageJsonDependencies
+} from '../helpers/schematics-helper';
 import { Packages, SharedModulePath } from '../schematics.constants';
 
 // @ts-ignore
@@ -27,7 +30,7 @@ export function setupI18n(options: BaseSchema): Rule {
       schematic('shared-module', options),
       copyResources(),
       addImportExportToModule(),
-      addPackageJsonDependencies(),
+      addi18nDependencies(),
       installPackageJsonDependencies()
     ]);
   };
@@ -53,19 +56,10 @@ function addImportExportToModule(): Rule {
 }
 
 // @ts-ignore
-function addPackageJsonDependencies(): Rule {
+function addi18nDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.IshaApac, Packages.NgxTranslate, Packages.JsYaml];
     addPackagesJsonDependencies(host, context, packages);
-    return host;
-  };
-}
-
-// @ts-ignore
-function installPackageJsonDependencies(): Rule {
-  return (host: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
     return host;
   };
 }

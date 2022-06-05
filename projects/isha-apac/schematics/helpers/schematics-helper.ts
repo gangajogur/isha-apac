@@ -1,9 +1,11 @@
 import { virtualFs, workspaces } from '@angular-devkit/core';
 import { SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { applyToUpdateRecorder, Change } from '@schematics/angular/utility/change';
 import { addPackageJsonDependency, NodeDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { BaseSchema } from '../base.schema';
 import { PackageInfo } from '../schematics.constants';
+
 export function createHost(tree: Tree): workspaces.WorkspaceHost {
   return {
     async readFile(path: string): Promise<string> {
@@ -79,6 +81,15 @@ export function addPackagesJsonDependencies(host: Tree, context: SchematicContex
     addPackageJsonDependency(host, dependency);
     context.logger.log('info', `✅️ Added "${dependency.name}" into ${dependency.type}`);
   });
+}
+
+// @ts-ignore
+export function installPackageJsonDependencies(): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    context.addTask(new NodePackageInstallTask());
+    context.logger.log('info', `🔍 Installing packages...`);
+    return host;
+  };
 }
 
 export function commitChange(host: Tree, modulePath: string, changes: Change[]) {

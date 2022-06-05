@@ -12,7 +12,7 @@ export function setupSharedModule(): Rule {
     return chain([
       copyResources(),
       copyOptionalFiles(),
-      addPackageJsonDependencies(),
+      addSharedModuleDependencies(),
       addInectionTokenProviderToModule()
     ]);
   };
@@ -36,7 +36,7 @@ function copyOptionalFiles(): Rule {
 }
 
 // @ts-ignore
-function addPackageJsonDependencies(): Rule {
+function addSharedModuleDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.IshaApac];
     addPackagesJsonDependencies(host, context, packages);

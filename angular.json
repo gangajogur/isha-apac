@@ -1,7 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "@angular-eslint/schematics"
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -33,6 +34,15 @@
             "main": "projects/isha-apac/src/test.ts",
             "tsConfig": "projects/isha-apac/tsconfig.spec.json",
             "karmaConfig": "projects/isha-apac/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/isha-apac/**/*.ts",
+              "projects/isha-apac/**/*.html"
+            ]
           }
         }
       }
