@@ -1,6 +1,6 @@
 import { virtualFs, workspaces } from '@angular-devkit/core';
-import { SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { NodePackageInstallTask, RunSchematicTask } from '@angular-devkit/schematics/tasks';
 import { applyToUpdateRecorder, Change } from '@schematics/angular/utility/change';
 import { addPackageJsonDependency, NodeDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { BaseSchema } from '../base.schema';
@@ -84,7 +84,7 @@ export function addPackagesJsonDependencies(host: Tree, context: SchematicContex
 }
 
 // @ts-ignore
-export function installPackageJsonDependencies(): Rule {
+export function installPackageJsonDependencies() {
   return (host: Tree, context: SchematicContext) => {
     context.addTask(new NodePackageInstallTask());
     context.logger.log('info', `🔍 Installing packages...`);
@@ -96,4 +96,15 @@ export function commitChange(host: Tree, modulePath: string, changes: Change[]) 
   const changeRecorder = host.beginUpdate(modulePath);
   applyToUpdateRecorder(changeRecorder, changes);
   host.commitUpdate(changeRecorder);
+}
+
+export function ngAddExternal(packages: PackageInfo[], privateSchematicName: string, options: any): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    addPackagesJsonDependencies(tree, context, packages);
+    const installTaskId = context.addTask(new NodePackageInstallTask());
+
+    // Chain won't work here since we need the externals to be actually installed before we call their schemas
+    // This ensures the externals are a dependency of the node install, so they exist when their schemas run.
+    context.addTask(new RunSchematicTask(privateSchematicName, options), [installTaskId]);
+  };
 }

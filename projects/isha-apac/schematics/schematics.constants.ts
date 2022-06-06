@@ -7,6 +7,7 @@ export interface PackagesList {
   IshaApac: PackageInfo;
   NgxTranslate: PackageInfo;
   JsYaml: PackageInfo;
+  EsLintSchematics: PackageInfo;
 }
 
 export const Packages: PackagesList = {
@@ -21,6 +22,10 @@ export const Packages: PackagesList = {
   JsYaml: {
     name: 'js-yaml',
     version: '^4.1.0'
+  },
+  EsLintSchematics: {
+    name: '@angular-eslint/schematics',
+    version: '13.2.1'
   }
 };
 
