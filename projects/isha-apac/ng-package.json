@@ -4,5 +4,5 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
-  "allowedNonPeerDependencies": ["dayjs", "lodash"]
+  "allowedNonPeerDependencies": ["dayjs", "lodash", "@angular/cdk"]
 }

@@ -10,9 +10,6 @@ export abstract class BaseService {
 
   protected abstract feature: string;
 
-  // TODO: to be driven by the dropdown observable
-  // protected readonly group = this.authService?.currentGroup;
-
   private endpoint(isAuthEnabled = true): string {
     const prefix = isAuthEnabled ? '_api/' : '/';
     return `${prefix}${this.feature}`;

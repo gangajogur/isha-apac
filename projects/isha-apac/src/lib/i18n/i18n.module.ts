@@ -43,6 +43,7 @@ export class I18NModule {
    *
    */
   constructor(translate: TranslateService, language: LanguageService) {
+    translate.setDefaultLang('en');
     translate.use(LanguageService.get());
   }
 }

@@ -4,22 +4,32 @@
     "ng-add": {
       "description": "Add my library to the project.",
       "factory": "./ng-add/index#ngAdd",
-      "schema": "./schema.json"
+      "schema": "./ng-add/schema.json"
     },
     "setup-ide": {
       "description": "Add vscode IDE setup files in .vscode folder",
       "factory": "./ide-setup/index#setupIde",
-      "schema": "./schema.json"
+      "schema": "./ide-setup/schema.json"
     },
     "setup-eslint": {
       "description": "Add eslint to the project",
       "factory": "./setup-eslint/index#setupEsLint",
-      "schema": "./schema.json"
+      "schema": "./setup-eslint/schema.json"
     },
     "eslint-schematic-private": {
       "description": "Add eslint schematics during IDE setup schematics",
       "factory": "./setup-eslint/index#eslintSchematicPrivate",
-      "schema": "./schema.json"
+      "schema": "./setup-eslint/schema.json"
+    },
+    "setup-project": {
+      "description": "Add project setup to the project",
+      "factory": "./setup-proj/index#setupProject",
+      "schema": "./setup-proj/schema.json"
+    },
+    "angular-material-schematic-private": {
+      "description": "Add eslint schematics during IDE setup schematics",
+      "factory": "./setup-proj/index#angularMaterialSchematicPrivate",
+      "schema": "./setup-proj/schema.json"
     },
     "setup-i18n": {
       "description": "Add internationalisation (i18n) support",
