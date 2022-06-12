@@ -1,0 +1,26 @@
+<form [formGroup]="countryFormGroup">
+  <mat-form-field fxFlex="100%" appearance="outline">
+    <mat-label>{{ config.label }}</mat-label>
+    <mat-select
+      formControlName="country"
+      [placeholder]="config.selectPlaceHolder"
+      #countrySelect
+      (selectionChange)="onSelectChange($event.value)"
+    >
+      <mat-option>
+        <ngx-mat-select-search
+          [placeholderLabel]="config.selectSearchPlaceholder"
+          [noEntriesFoundLabel]="config.selectSearchNotFoundLabel"
+          [formControl]="countryFilterCtrl"
+        >
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let cc of filteredCountries | async" [value]="cc.id">
+        {{ cc.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="countryFormGroup?.get('country')?.hasError('required')">
+      {{ config.requiredErrorMessage }}
+    </mat-error>
+  </mat-form-field>
+</form>

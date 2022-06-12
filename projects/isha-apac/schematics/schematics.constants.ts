@@ -34,7 +34,7 @@ export const Packages: PackagesList = {
   },
   AngularMaterial: {
     name: '@angular/material',
-    version: '^14.0.0'
+    version: '^13.2.0'
   },
   AngularCommonHttp: {
     name: '@angular/common/http',
@@ -50,7 +50,7 @@ export const Packages: PackagesList = {
   },
   FontAwesome: {
     name: '@fortawesome/angular-fontawesome',
-    version: '^0.11.0'
+    version: '^0.10.1'
   }
 };
 

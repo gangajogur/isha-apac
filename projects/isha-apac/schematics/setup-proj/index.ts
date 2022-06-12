@@ -41,7 +41,7 @@ export function angularMaterialSchematicPrivate(options: any): Rule {
     const materialOptions: ProjectSchema = {
       ...options,
       theme: 'custom',
-      animations: 'enabled',
+      animations: true,
       typography: true
     };
     return chain([externalSchematic(Packages.AngularMaterial.name, 'ng-add', materialOptions)]);
@@ -63,6 +63,7 @@ function addImportExportToModule(): Rule {
     addModuleImportToModule(host, AppModulePath, 'ReactiveFormsModule', Packages.AngularForms.name);
     addModuleImportToModule(host, AppModulePath, 'FlexLayoutModule', Packages.AngularFlexLayout.name);
     addModuleImportToModule(host, AppModulePath, 'FontAwesomeModule', Packages.FontAwesome.name);
+    addModuleImportToModule(host, AppModulePath, 'CoreModule', Packages.IshaApac.name);
     // const source = parseSourceFile(host, SharedModulePath);
     // const exportChanges = addExportToModule(source, SharedModulePath, 'I18NModule', Packages.IshaApac.name);
     // commitChange(host, SharedModulePath, exportChanges);
