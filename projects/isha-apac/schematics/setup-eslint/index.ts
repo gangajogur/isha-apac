@@ -1,7 +1,7 @@
 import { chain, externalSchematic, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { BaseSchema } from '../base.schema';
 import { ngAddExternal } from '../helpers/schematics-helper';
-import { Packages } from '../schematics.constants';
+import { Packages, SchematicCollection } from '../schematics.constants';
 
 // @ts-ignore
 export function setupEsLint(options: BaseSchema): Rule {
@@ -25,7 +25,6 @@ function addEsLint(options): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.EsLintSchematics];
     // ensure this matches to the schematic name in collection.json
-    const privateSchematicName = 'eslint-schematic-private';
-    return ngAddExternal(packages, privateSchematicName, options);
+    return ngAddExternal(packages, SchematicCollection.EsLintSchematicPrivate, options);
   };
 }

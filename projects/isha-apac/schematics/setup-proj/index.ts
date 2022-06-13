@@ -7,17 +7,21 @@ import {
   mergeWith,
   move,
   Rule,
+  schematic,
   SchematicContext,
   Tree,
   url
 } from '@angular-devkit/schematics';
 import { addModuleImportToModule } from '@angular/cdk/schematics';
+import { format, Options } from 'prettier';
+import { CompilerOptions } from 'typescript';
 import {
   addPackagesJsonDependencies,
+  cleanseJson,
   installPackageJsonDependencies,
   ngAddExternal
 } from '../helpers/schematics-helper';
-import { AppModulePath, Packages } from '../schematics.constants';
+import { AppModulePath, Packages, PrettierPath, SchematicCollection, TsConfigPath } from '../schematics.constants';
 import { ProjectSchema } from './schema';
 
 // @ts-ignore
@@ -26,18 +30,20 @@ export function setupProject(options: ProjectSchema): Rule {
   return async (host: Tree, context: SchematicContext) => {
     context.logger.log('info', 'Setting the Angular Material');
     return chain([
+      schematic(SchematicCollection.SetupIde, options),
       addAngularMaterial(options),
       copyResources(),
       addProjectDependencies(),
       installPackageJsonDependencies(),
-      addImportExportToModule()
+      addImportExportToModule(),
+      updateTsConfigFile()
     ]);
   };
 }
 
+// @ts-ignore
 export function angularMaterialSchematicPrivate(options: any): Rule {
   return (_tree: Tree, _context: SchematicContext) => {
-    console.log('Running dependency schematics...\n');
     const materialOptions: ProjectSchema = {
       ...options,
       theme: 'custom',
@@ -64,15 +70,12 @@ function addImportExportToModule(): Rule {
     addModuleImportToModule(host, AppModulePath, 'FlexLayoutModule', Packages.AngularFlexLayout.name);
     addModuleImportToModule(host, AppModulePath, 'FontAwesomeModule', Packages.FontAwesome.name);
     addModuleImportToModule(host, AppModulePath, 'CoreModule', Packages.IshaApac.name);
-    // const source = parseSourceFile(host, SharedModulePath);
-    // const exportChanges = addExportToModule(source, SharedModulePath, 'I18NModule', Packages.IshaApac.name);
-    // commitChange(host, SharedModulePath, exportChanges);
     return host;
   };
 }
 
 // @ts-ignore
-function addAngularMaterial(options): Rule {
+function addAngularMaterial(options: ProjectSchema): Rule {
   // @ts-ignore
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.AngularMaterial];
@@ -87,6 +90,33 @@ function addProjectDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.AngularFlexLayout, Packages.FontAwesome];
     addPackagesJsonDependencies(host, context, packages);
+    return host;
+  };
+}
+
+function updateTsConfigFile(): Rule {
+  // @ts-ignore
+  return (host: Tree, context: SchematicContext) => {
+    if (host.exists(TsConfigPath)) {
+      const currentAngularJson = host.read(TsConfigPath)?.toString('utf-8') || '';
+      const json = JSON.parse(cleanseJson(currentAngularJson));
+      const compilerOptions = json['compilerOptions'] as CompilerOptions;
+      compilerOptions.paths = {
+        ...compilerOptions.paths,
+        ...{
+          '@environment': ['"./src/environments/environment.ts"'],
+          '@app/*': ['./src/app/*'],
+          '@testing/*': ['./src/testing/*']
+        }
+      };
+
+      const prettierConfig = host.read(PrettierPath)?.toString('utf-8') || '';
+      const prettierOptions = JSON.parse(prettierConfig) as Options;
+      prettierOptions.parser = 'json';
+
+      const formattedText = format(JSON.stringify(json, null, 2), prettierOptions);
+      host.overwrite(TsConfigPath, formattedText);
+    }
     return host;
   };
 }

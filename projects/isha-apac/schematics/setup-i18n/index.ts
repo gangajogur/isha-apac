@@ -18,7 +18,7 @@ import {
   commitChange,
   installPackageJsonDependencies
 } from '../helpers/schematics-helper';
-import { Packages, SharedModulePath } from '../schematics.constants';
+import { Packages, SchematicCollection, SharedModulePath } from '../schematics.constants';
 
 // @ts-ignore
 export function setupI18n(options: BaseSchema): Rule {
@@ -27,7 +27,7 @@ export function setupI18n(options: BaseSchema): Rule {
     context.logger.log('info', 'Setting up internationalisation (i18n)');
 
     return chain([
-      schematic('shared-module', options),
+      schematic(SchematicCollection.SharedModule, options),
       copyResources(),
       addImportExportToModule(),
       addi18nDependencies(),

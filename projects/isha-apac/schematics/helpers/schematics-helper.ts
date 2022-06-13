@@ -108,3 +108,7 @@ export function ngAddExternal(packages: PackageInfo[], privateSchematicName: str
     context.addTask(new RunSchematicTask(privateSchematicName, options), [installTaskId]);
   };
 }
+
+export function cleanseJson(data: string) {
+  return data.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => (g ? '' : m));
+}

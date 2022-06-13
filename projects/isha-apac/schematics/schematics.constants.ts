@@ -56,3 +56,15 @@ export const Packages: PackagesList = {
 
 export const SharedModulePath = '/src/app/shared/shared.module.ts';
 export const AppModulePath = '/src/app/app.module.ts';
+export const TsConfigPath = '/tsconfig.json';
+export const PrettierPath = '/.prettierrc';
+
+export const SchematicCollection = {
+  SetupIde: 'setup-ide',
+  SetupEsLint: 'setup-eslint',
+  EsLintSchematicPrivate: 'eslint-schematic-private',
+  SetupProject: 'setup-project',
+  MaterialSchematicPrivate: 'angular-material-schematic-private',
+  SetupI18n: 'setup-i18n',
+  SharedModule: 'shared-module'
+};
