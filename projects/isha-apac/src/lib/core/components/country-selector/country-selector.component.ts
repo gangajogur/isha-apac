@@ -21,7 +21,7 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
 
   country: string | undefined;
 
-  countryFormGroup: FormGroup;
+  countryFormGroup!: FormGroup;
 
   @Input()
   config: CountrySelectorConfig = {
@@ -54,7 +54,7 @@ export class CountrySelectorComponent implements OnInit, OnDestroy {
     combineLatest([this.countrySelectorService.getCountry(), this.defaultValue$]).subscribe(
       ([country, defaultValue]) => {
         const selectCountry = defaultValue || (this.geoLookupEnabled ? country : '');
-        this.countryFormGroup?.get('country').setValue(selectCountry);
+        this.countryFormGroup?.get('country')?.setValue(selectCountry);
         this.onSelectChange(selectCountry);
       }
     );
