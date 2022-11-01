@@ -1,6 +1,6 @@
 {
-  "name": "@gangajogur/isha-apac",
-  "version": "0.0.102",
+  "name": "@isha-apac/libs",
+  "version": "0.0.5",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "copyfiles schematics/**/schema.json schematics/*/files/** schematics/*/files-optional/** schematics/collection.json ../../dist/isha-apac/ && copyfiles -u 2 ../../.vscode/**/* ../../dist/isha-apac/schematics/ide-setup/files && copyfiles -u 2 ../../.prettierrc ../../dist/isha-apac/schematics/ide-setup/files",
@@ -15,7 +15,7 @@
     "@angular/cdk": "^14.2.5",
     "@angular/common": "^14.2.7",
     "@angular/core": "^14.2.7",
-    "@angular/flex-layout": "^13.0.0-beta.38",
+    "@angular/flex-layout": "^14.0.0-beta.41",
     "@angular/forms": "^14.2.7",
     "@angular/material": "^14.2.5",
     "@ngx-translate/core": "^14.0.0",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@angular/cdk": "^14.2.5",
-    "@angular/flex-layout": "^13.0.0-beta.38",
+    "@angular/flex-layout": "^14.0.0-beta.41",
     "@angular/forms": "^14.2.7",
     "@angular/material": "^14.2.5",
     "@ngx-translate/core": "^14.0.0",
@@ -42,8 +42,5 @@
     "tslib": "^2.3.0",
     "typescript": "^4.6.3",
     "rxjs": "~7.5.0"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   }
 }
