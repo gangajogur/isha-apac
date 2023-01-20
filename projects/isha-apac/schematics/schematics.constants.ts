@@ -17,8 +17,8 @@ export interface PackagesList {
 
 export const Packages: PackagesList = {
   IshaApac: {
-    name: '@gangajogur/isha-apac',
-    version: '0.0.47'
+    name: '@isha-apac/libs',
+    version: '0.0.13'
   },
   NgxTranslate: {
     name: '@ngx-translate/core',
@@ -30,33 +30,34 @@ export const Packages: PackagesList = {
   },
   EsLintSchematics: {
     name: '@angular-eslint/schematics',
-    version: '13.2.1'
+    version: '14.1.2'
   },
   AngularMaterial: {
     name: '@angular/material',
-    version: '^13.2.0'
+    version: '^14.2.5'
   },
   AngularCommonHttp: {
     name: '@angular/common/http',
-    version: '~13.2.0'
+    version: '~14.2.7'
   },
   AngularForms: {
     name: '@angular/forms',
-    version: '~13.2.0'
+    version: '~14.2.7'
   },
   AngularFlexLayout: {
     name: '@angular/flex-layout',
-    version: '13.0.0-beta.38'
+    version: '14.0.0-beta.41'
   },
   FontAwesome: {
     name: '@fortawesome/angular-fontawesome',
-    version: '^0.10.1'
+    version: '^0.11.1'
   }
 };
 
 export const SharedModulePath = '/src/app/shared/shared.module.ts';
 export const AppModulePath = '/src/app/app.module.ts';
 export const TsConfigPath = '/tsconfig.json';
+export const AngularJsonPath = '/angular.json';
 export const PrettierPath = '/.prettierrc';
 
 export const SchematicCollection = {

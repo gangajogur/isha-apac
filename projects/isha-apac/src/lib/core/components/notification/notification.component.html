@@ -1,9 +1,15 @@
 <div fxFlex="100%" fxLayout fxLayoutGap="2px">
   <div fxFlex="grow">
-    <span [class]="data.type">{{ data.msg }}</span>
+    <div [ngClass]="data.type" [innerHTML]="data.msg"></div>
   </div>
   <div fxFlex="auto" fxLayout fxLayoutAlign="end">
-    <button mat-icon-button color="accent" (click)="snackbarRef.dismiss()" fxLayoutAlign="end start">
+    <button
+      mat-icon-button
+      color="accent"
+      class="icon-button"
+      (click)="snackbarRef.dismiss()"
+      fxLayoutAlign="end start"
+    >
       <mat-icon>close</mat-icon>
     </button>
   </div>

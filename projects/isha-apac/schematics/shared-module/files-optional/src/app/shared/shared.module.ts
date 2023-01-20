@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { InjectionTokens } from '@gangajogur/isha-apac';
+import { InjectionTokens } from '@isha-apac/libs';
 import { environment } from '../../environments/environment';
 
 @NgModule({
