@@ -21,14 +21,7 @@ import {
   installPackageJsonDependencies,
   ngAddExternal
 } from '../helpers/schematics-helper';
-import {
-  AngularJsonPath,
-  AppModulePath,
-  Packages,
-  PrettierPath,
-  SchematicCollection,
-  TsConfigPath
-} from '../schematics.constants';
+import { AppModulePath, Packages, PrettierPath, SchematicCollection, TsConfigPath } from '../schematics.constants';
 import { ProjectSchema } from './schema';
 
 // @ts-ignore
@@ -38,13 +31,13 @@ export function setupProject(options: ProjectSchema): Rule {
     context.logger.log('info', 'Setting the Angular Material');
     return chain([
       schematic(SchematicCollection.SetupIde, options),
+      schematic(SchematicCollection.SetupToastNotification, options),
       addAngularMaterial(options),
       copyResources(),
       addProjectDependencies(),
       installPackageJsonDependencies(),
       addImportExportToModule(),
-      updateTsConfigFile(),
-      updateAngularJsonFile(options)
+      updateTsConfigFile()
     ]);
   };
 }
@@ -87,9 +80,7 @@ function addAngularMaterial(options: ProjectSchema): Rule {
   // @ts-ignore
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.AngularMaterial];
-    // ensure this matches to the schematic name in collection.json
-    const privateSchematicName = 'angular-material-schematic-private';
-    return ngAddExternal(packages, privateSchematicName, options);
+    return ngAddExternal(packages, SchematicCollection.MaterialSchematicPrivate, options);
   };
 }
 
@@ -124,32 +115,6 @@ function updateTsConfigFile(): Rule {
 
       const formattedText = format(JSON.stringify(json, null, 2), prettierOptions);
       host.overwrite(TsConfigPath, formattedText);
-    }
-    return host;
-  };
-}
-
-function updateAngularJsonFile(options: ProjectSchema): Rule {
-  // @ts-ignore
-  return (host: Tree, context: SchematicContext) => {
-    if (host.exists(AngularJsonPath)) {
-      const currentAngularJson = host.read(AngularJsonPath)?.toString('utf-8') || '';
-      const angular = JSON.parse(cleanseJson(currentAngularJson));
-      console.log('App Detection & your options: \n', options);
-      // angular['projects'][options.project]['architect']['build']['options']['stylePreprocessorOptions'] = {
-      //   includePaths: ['src/scss/']
-      // };
-      // angular['projects'][options.project]['architect']['build']['options']['es5BrowserSupport'] = true;
-      angular['projects'][options.project]['architect']['build']['options']['styles'].push(
-        'src/assets/custom-styles.scss'
-      );
-
-      const prettierConfig = host.read(PrettierPath)?.toString('utf-8') || '';
-      const prettierOptions = JSON.parse(prettierConfig) as Options;
-      prettierOptions.parser = 'json';
-
-      const formattedText = format(JSON.stringify(angular, null, 2), prettierOptions);
-      host.overwrite(AngularJsonPath, formattedText);
     }
     return host;
   };

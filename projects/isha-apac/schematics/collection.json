@@ -26,6 +26,11 @@
       "factory": "./setup-proj/index#setupProject",
       "schema": "./setup-proj/schema.json"
     },
+    "setup-toast-notification": {
+      "description": "Add toast notification to the project",
+      "factory": "./setup-toast-notification/index#setupToastNotification",
+      "schema": "./setup-toast-notification/schema.json"
+    },
     "angular-material-schematic-private": {
       "description": "Add eslint schematics during IDE setup schematics",
       "factory": "./setup-proj/index#angularMaterialSchematicPrivate",
