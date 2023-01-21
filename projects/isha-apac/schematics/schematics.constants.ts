@@ -18,7 +18,7 @@ export interface PackagesList {
 export const Packages: PackagesList = {
   IshaApac: {
     name: '@isha-apac/libs',
-    version: '0.0.13'
+    version: '0.0.30'
   },
   NgxTranslate: {
     name: '@ngx-translate/core',
@@ -65,6 +65,7 @@ export const SchematicCollection = {
   SetupEsLint: 'setup-eslint',
   EsLintSchematicPrivate: 'eslint-schematic-private',
   SetupProject: 'setup-project',
+  SetupToastNotification: 'setup-toast-notification',
   MaterialSchematicPrivate: 'angular-material-schematic-private',
   SetupI18n: 'setup-i18n',
   SharedModule: 'shared-module'

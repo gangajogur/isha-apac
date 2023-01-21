@@ -58,7 +58,7 @@ function addImportExportToModule(): Rule {
 // @ts-ignore
 function addi18nDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const packages = [Packages.IshaApac, Packages.NgxTranslate, Packages.JsYaml];
+    const packages = [Packages.NgxTranslate, Packages.JsYaml];
     addPackagesJsonDependencies(host, context, packages);
     return host;
   };

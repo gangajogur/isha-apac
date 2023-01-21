@@ -3,5 +3,5 @@ export interface BaseSchema {
   path?: string;
 
   // The name of the project.
-  project?: string;
+  project: string;
 }

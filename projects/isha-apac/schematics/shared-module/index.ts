@@ -1,7 +1,7 @@
 import { normalize } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, SchematicContext, Tree, url } from '@angular-devkit/schematics';
 import { addSymbolToNgModuleMetadata, insertImport, parseSourceFile } from '@angular/cdk/schematics';
-import { addPackagesJsonDependencies, commitChange } from '../helpers/schematics-helper';
+import { commitChange } from '../helpers/schematics-helper';
 import { Packages, SharedModulePath } from '../schematics.constants';
 
 // @ts-ignore
@@ -9,12 +9,7 @@ export function setupSharedModule(): Rule {
   // @ts-ignore
   return async (host: Tree, context: SchematicContext) => {
     context.logger.log('info', 'Setting up shared module');
-    return chain([
-      copyResources(),
-      copyOptionalFiles(),
-      addSharedModuleDependencies(),
-      addInectionTokenProviderToModule()
-    ]);
+    return chain([copyResources(), copyOptionalFiles(), addInectionTokenProviderToModule()]);
   };
 }
 
@@ -32,15 +27,6 @@ function copyOptionalFiles(): Rule {
     }
     const templateSource = apply(url('./files-optional'), [move(normalize(``))]);
     return mergeWith(templateSource);
-  };
-}
-
-// @ts-ignore
-function addSharedModuleDependencies(): Rule {
-  return (host: Tree, context: SchematicContext) => {
-    const packages = [Packages.IshaApac];
-    addPackagesJsonDependencies(host, context, packages);
-    return host;
   };
 }
 
