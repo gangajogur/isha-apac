@@ -14,8 +14,12 @@ export function addFilesToStyles(options: BaseSchema, filePaths: string[], host:
     //   includePaths: ['src/scss/']
     // };
     // angular['projects'][options.project]['architect']['build']['options']['es5BrowserSupport'] = true;
-    angular['projects'][options?.project]['architect']['build']['options']['styles'].push(...filePaths);
-    angular['projects'][options?.project]['architect']['test']['options']['styles'].push(...filePaths);
+    const props = ['build', 'test'];
+    props.forEach(prop => {
+      const items = angular['projects'][options?.project]['architect'][prop]['options']['styles'] as string[];
+      const missingPaths = filePaths.filter(a => !items.some(b => b === a));
+      items.push(...missingPaths);
+    });
 
     const formattedText = getPrettierFormattedText(host, angular);
     host.overwrite(AngularJsonPath, formattedText);

@@ -1,6 +1,6 @@
 {
   "name": "@isha-apac/libs",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "copyfiles schematics/**/schema.json schematics/*/files/** schematics/*/files-optional/** schematics/collection.json ../../dist/isha-apac/ && copyfiles -u 2 ../../.vscode/**/* ../../dist/isha-apac/schematics/ide-setup/files && copyfiles -u 2 ../../.prettierrc ../../dist/isha-apac/schematics/ide-setup/files",
