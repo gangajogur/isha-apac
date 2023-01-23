@@ -18,7 +18,7 @@ export interface PackagesList {
 export const Packages: PackagesList = {
   IshaApac: {
     name: '@isha-apac/libs',
-    version: '0.0.30'
+    version: '0.0.38'
   },
   NgxTranslate: {
     name: '@ngx-translate/core',
@@ -55,7 +55,9 @@ export const Packages: PackagesList = {
 };
 
 export const SharedModulePath = '/src/app/shared/shared.module.ts';
+export const SharedModuleImportPath = './shared/shared.module';
 export const AppModulePath = '/src/app/app.module.ts';
+export const MaterialModuleImportPath = './material.module';
 export const TsConfigPath = '/tsconfig.json';
 export const AngularJsonPath = '/angular.json';
 export const PrettierPath = '/.prettierrc';
@@ -66,6 +68,7 @@ export const SchematicCollection = {
   EsLintSchematicPrivate: 'eslint-schematic-private',
   SetupProject: 'setup-project',
   SetupToastNotification: 'setup-toast-notification',
+  SetupAngularMaterial: 'setup-angular-material',
   MaterialSchematicPrivate: 'angular-material-schematic-private',
   SetupI18n: 'setup-i18n',
   SharedModule: 'shared-module'

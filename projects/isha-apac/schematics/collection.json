@@ -31,10 +31,15 @@
       "factory": "./setup-toast-notification/index#setupToastNotification",
       "schema": "./setup-toast-notification/schema.json"
     },
+    "setup-angular-material": {
+      "description": "Add angular material to the project",
+      "factory": "./setup-angular-material/index#setupAngularMaterial",
+      "schema": "./setup-angular-material/schema.json"
+    },
     "angular-material-schematic-private": {
-      "description": "Add eslint schematics during IDE setup schematics",
-      "factory": "./setup-proj/index#angularMaterialSchematicPrivate",
-      "schema": "./setup-proj/schema.json"
+      "description": "private schematics to be called by setup-angular-material call",
+      "factory": "./setup-angular-material/index#angularMaterialSchematicPrivate",
+      "schema": "./setup-angular-material/schema.json"
     },
     "setup-i18n": {
       "description": "Add internationalisation (i18n) support",
