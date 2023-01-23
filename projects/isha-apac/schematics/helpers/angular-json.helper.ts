@@ -29,6 +29,9 @@ function getAngularJsonFile(host: Tree) {
 }
 
 function getPrettierFormattedText(host: Tree, angularJson: any) {
+  if (!host.exists(PrettierPath)) {
+    return JSON.stringify(angularJson, null, 2);
+  }
   const prettierConfig = host.read(PrettierPath)?.toString('utf-8') || '';
   const prettierOptions = JSON.parse(prettierConfig) as Options;
   prettierOptions.parser = 'json';
