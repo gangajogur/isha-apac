@@ -1,26 +1,8 @@
-import { normalize } from '@angular-devkit/core';
-import {
-  apply,
-  chain,
-  externalSchematic,
-  MergeStrategy,
-  mergeWith,
-  move,
-  Rule,
-  schematic,
-  SchematicContext,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
+import { chain, Rule, schematic, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { addModuleImportToModule } from '@angular/cdk/schematics';
 import { format, Options } from 'prettier';
 import { CompilerOptions } from 'typescript';
-import {
-  addPackagesJsonDependencies,
-  cleanseJson,
-  installPackageJsonDependencies,
-  ngAddExternal
-} from '../helpers/schematics-helper';
+import { addPackagesJsonDependencies, cleanseJson, installPackageJsonDependencies } from '../helpers/schematics-helper';
 import { AppModulePath, Packages, PrettierPath, SchematicCollection, TsConfigPath } from '../schematics.constants';
 import { ProjectSchema } from './schema';
 
@@ -32,34 +14,12 @@ export function setupProject(options: ProjectSchema): Rule {
     return chain([
       schematic(SchematicCollection.SetupIde, options),
       schematic(SchematicCollection.SetupToastNotification, options),
-      addAngularMaterial(options),
-      copyResources(),
+      schematic(SchematicCollection.SetupAngularMaterial, options),
       addProjectDependencies(),
       installPackageJsonDependencies(),
       addImportExportToModule(),
       updateTsConfigFile()
     ]);
-  };
-}
-
-// @ts-ignore
-export function angularMaterialSchematicPrivate(options: any): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
-    const materialOptions: ProjectSchema = {
-      ...options,
-      theme: 'custom',
-      animations: 'enabled',
-      typography: true
-    };
-    return chain([externalSchematic(Packages.AngularMaterial.name, 'ng-add', materialOptions)]);
-  };
-}
-
-// @ts-ignore
-function copyResources(): Rule {
-  return () => {
-    const templateSource = apply(url('./files'), [move(normalize(``))]);
-    return mergeWith(templateSource, MergeStrategy.Overwrite);
   };
 }
 
@@ -72,15 +32,6 @@ function addImportExportToModule(): Rule {
     addModuleImportToModule(host, AppModulePath, 'FontAwesomeModule', Packages.FontAwesome.name);
     addModuleImportToModule(host, AppModulePath, 'CoreModule', Packages.IshaApac.name);
     return host;
-  };
-}
-
-// @ts-ignore
-function addAngularMaterial(options: ProjectSchema): Rule {
-  // @ts-ignore
-  return (host: Tree, context: SchematicContext) => {
-    const packages = [Packages.AngularMaterial];
-    return ngAddExternal(packages, SchematicCollection.MaterialSchematicPrivate, options);
   };
 }
 
