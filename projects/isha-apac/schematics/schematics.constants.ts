@@ -8,6 +8,7 @@ export interface PackagesList {
   NgxTranslate: PackageInfo;
   JsYaml: PackageInfo;
   EsLintSchematics: PackageInfo;
+  Angular: PackageInfo;
   AngularMaterial: PackageInfo;
   AngularCommonHttp: PackageInfo;
   AngularForms: PackageInfo;
@@ -16,6 +17,10 @@ export interface PackagesList {
 }
 
 export const Packages: PackagesList = {
+  Angular: {
+    name: '@schematics/angular',
+    version: '14.0.0'
+  },
   IshaApac: {
     name: '@isha-apac/libs',
     version: '0.0.40'
@@ -63,6 +68,7 @@ export const AngularJsonPath = '/angular.json';
 export const PrettierPath = '/.prettierrc';
 
 export const SchematicCollection = {
+  CreateAngularProject: 'create-angular-project',
   SetupIde: 'setup-ide',
   SetupEsLint: 'setup-eslint',
   EsLintSchematicPrivate: 'eslint-schematic-private',

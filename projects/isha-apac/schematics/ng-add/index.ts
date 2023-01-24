@@ -8,6 +8,9 @@ export function ngAdd(options: NgAddSchema): Rule {
   // @ts-ignore
   return (tree: Tree, context: SchematicContext) => {
     context.addTask(new NodePackageInstallTask());
+    if (options.createNewAngularApp) {
+      context.addTask(new RunSchematicTask(SchematicCollection.CreateAngularProject, options));
+    }
     if (options.i18n) {
       context.addTask(new RunSchematicTask(SchematicCollection.SetupI18n, options));
     }

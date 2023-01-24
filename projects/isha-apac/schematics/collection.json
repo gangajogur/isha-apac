@@ -1,6 +1,11 @@
 {
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
+    "create-angular-project": {
+      "description": "Add new angular to the project.",
+      "factory": "./create-angular-project/index#createAngularProject",
+      "schema": "./create-angular-project/schema.json"
+    },
     "ng-add": {
       "description": "Add my library to the project.",
       "factory": "./ng-add/index#ngAdd",

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SchematicsSetupAngular",
+  "title": "Setup Angular Project",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the service.",
+      "visible": false
+    },
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the project",
+      "x-prompt": "Name:",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    }
+  }
+}

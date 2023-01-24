@@ -17,9 +17,15 @@
         "$source": "projectName"
       }
     },
+    "newApp": {
+      "type": "boolean",
+      "description": "A flag to indicate if a new angular project should be created",
+      "x-prompt": "Would you like to setup a new angular application?",
+      "default": false
+    },
     "i18n": {
       "type": "boolean",
-      "description": "A flag to indicate seting up the internationalisation",
+      "description": "A flag to indicate setting up the internationalisation",
       "x-prompt": "Would you like to include internationalisation (i18n)?"
     }
   }
