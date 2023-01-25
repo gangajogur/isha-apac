@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { combineLatest, Observable, of, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { COUNTRIES, Country } from './countries.data';
 import { CountrySelectorService } from './country-selector.service';
 import { CountrySelectorConfig } from './country.selector.config';
