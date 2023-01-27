@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import dayjs from 'dayjs';
+import dayjs, { ConfigType } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import tz from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { DayjsDateConstants } from './dayjs.date.constants';
 
@@ -13,6 +14,7 @@ export class DayjsDateService {
    */
   constructor() {
     dayjs.extend(utc);
+    dayjs.extend(tz);
     dayjs.extend(customParseFormat);
   }
 
@@ -25,8 +27,16 @@ export class DayjsDateService {
     return dayjs(date).format(returnFormat);
   }
 
-  public formatDate(dateString: Date = new Date(), returnFormat: string = DayjsDateConstants.ClientFormat): string {
-    return dayjs(dateString).format(returnFormat);
+  public formatDate(
+    dateString: ConfigType,
+    returnFormat = DayjsDateConstants.YearMonthDayFormat,
+    timezone = ''
+  ): string {
+    let date = dayjs(dateString);
+    if (timezone) {
+      date = dayjs.tz(dateString, timezone);
+    }
+    return date.format(returnFormat);
   }
 
   public formatDateUtc(dateString: Date, returnFormat: string): string {
@@ -37,8 +47,8 @@ export class DayjsDateService {
     return new Date();
   }
 
-  public formatFromDatePicker(dateString: string, returnFormat = DayjsDateConstants.ClientFormat): string {
-    return dayjs(dateString, DayjsDateConstants.DatePickerFormat).format(returnFormat);
+  public formatFromDatePicker(dateString: string, returnFormat = DayjsDateConstants.YearMonthDayFormat): string {
+    return dayjs(dateString, DayjsDateConstants.DayMonthYearFormat).format(returnFormat);
   }
 
   public addDays(noOfDays: number): Date {
@@ -66,11 +76,11 @@ export class DayjsDateService {
   }
 
   public isBeforeToday(date: string): boolean {
-    return dayjs(date, DayjsDateConstants.ClientFormat).isBefore(new Date());
+    return dayjs(date, DayjsDateConstants.YearMonthDayFormat).isBefore(new Date());
   }
 
   public isBefore(dateOne: string, dateTwo: string): boolean {
-    return dayjs(dateOne, DayjsDateConstants.ClientFormat).isBefore(dateTwo);
+    return dayjs(dateOne, DayjsDateConstants.YearMonthDayFormat).isBefore(dateTwo);
   }
 
   public addWeeks(date: string, noOfWeeks: number): Date {

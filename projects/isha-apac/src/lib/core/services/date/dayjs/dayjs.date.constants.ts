@@ -1,5 +1,6 @@
-export const enum DayjsDateConstants {
-  ClientFormat = 'YYYYMMDD',
-  DatePickerFormat = 'DDMMYYYY',
-  ProgramDateFormat = 'DD-MMM-YYYY'
-}
+export const DayjsDateConstants = {
+  YearMonthDayFormat: 'YYYYMMDD',
+  DayMonthYearFormat: 'DDMMYYYY',
+  DayMonthYearDashedFormat: 'DD-MMM-YYYY',
+  DayMonthYearTimeDashedFormat: 'DD-MMM-YYYY h:mm a'
+};

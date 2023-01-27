@@ -18,18 +18,18 @@ fdescribe('DateService', () => {
     expect(
       dateService.parseFormatDateString(
         '20201231',
-        DayjsDateConstants.ClientFormat,
-        DayjsDateConstants.ProgramDateFormat
+        DayjsDateConstants.YearMonthDayFormat,
+        DayjsDateConstants.DayMonthYearDashedFormat
       )
     ).toBe('31-Dec-2020');
   });
 
   it('should parse Epoch date to requested date format', () => {
-    expect(dateService.parseEpoch(1610499793000, DayjsDateConstants.ProgramDateFormat)).toBe('13-Jan-2021');
+    expect(dateService.parseEpoch(1610499793000, DayjsDateConstants.DayMonthYearDashedFormat)).toBe('13-Jan-2021');
   });
 
   it('should format date to requested format', () => {
-    expect(dateService.formatDate(new Date(2020, 4, 6), DayjsDateConstants.ClientFormat)).toBe('20200506');
+    expect(dateService.formatDate(new Date(2020, 4, 6), DayjsDateConstants.YearMonthDayFormat)).toBe('20200506');
   });
 
   it('should get todays date', () => {
@@ -37,7 +37,7 @@ fdescribe('DateService', () => {
   });
 
   it('should format datepicker time', () => {
-    expect(dateService.formatFromDatePicker('06052020', DayjsDateConstants.ClientFormat)).toBe('20200506');
+    expect(dateService.formatFromDatePicker('06052020', DayjsDateConstants.YearMonthDayFormat)).toBe('20200506');
   });
 
   it('should add days to date', () => {
