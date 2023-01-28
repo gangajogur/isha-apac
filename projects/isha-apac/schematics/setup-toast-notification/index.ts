@@ -44,7 +44,7 @@ function addImportExportToModule(): Rule {
 function addStylesToAngularJsonFile(options: BaseSchema): Rule {
   // @ts-ignore
   return (host: Tree, context: SchematicContext) => {
-    addFilesToStyles(options, ['src/assets/toast-notification.scss'], host);
+    addFilesToStyles(options, ['src/assets/scss/toast-notification.scss'], host);
     return host;
   };
 }

@@ -65,7 +65,7 @@ function copyResources(): Rule {
 function addStylesToAngularJsonFile(options: BaseSchema): Rule {
   // @ts-ignore
   return (host: Tree, context: SchematicContext) => {
-    addFilesToStyles(options, ['src/assets/theme.scss'], host);
+    addFilesToStyles(options, ['src/assets/scss/theme.scss'], host);
     return host;
   };
 }
