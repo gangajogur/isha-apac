@@ -18,7 +18,7 @@ export interface PackagesList {
 export const Packages: PackagesList = {
   IshaApac: {
     name: '@isha-apac/libs',
-    version: '0.0.40'
+    version: '0.0.51'
   },
   NgxTranslate: {
     name: '@ngx-translate/core',
