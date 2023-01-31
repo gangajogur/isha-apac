@@ -2,30 +2,28 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "isha-apac": {
+    "ngx-cli-library": {
       "projectType": "library",
-      "root": "projects/isha-apac",
-      "sourceRoot": "projects/isha-apac/src",
+      "root": "projects/ngx-cli-library",
+      "sourceRoot": "projects/ngx-cli-library/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/isha-apac/ng-package.json"
+            "project": "projects/ngx-cli-library/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/isha-apac/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-cli-library/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/isha-apac/tsconfig.lib.json"
+              "tsConfig": "projects/ngx-cli-library/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -33,18 +31,15 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/isha-apac/src/test.ts",
-            "tsConfig": "projects/isha-apac/tsconfig.spec.json",
-            "karmaConfig": "projects/isha-apac/karma.conf.js"
+            "main": "projects/ngx-cli-library/src/test.ts",
+            "tsConfig": "projects/ngx-cli-library/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-cli-library/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/isha-apac/**/*.ts",
-              "projects/isha-apac/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/ngx-cli-library/**/*.ts", "projects/ngx-cli-library/**/*.html"]
           }
         }
       }
