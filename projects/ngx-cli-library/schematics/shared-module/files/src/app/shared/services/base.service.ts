@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponseEntity, BackendService } from '@isha-apac/libs';
+import { ApiResponseEntity, BackendService } from '@isha-apac/ngx-cli-library';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

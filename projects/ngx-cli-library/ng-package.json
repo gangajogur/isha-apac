@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/isha-apac",
+  "dest": "../../dist/ngx-cli-library",
   "lib": {
     "entryFile": "src/public-api.ts"
   },

@@ -9,7 +9,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "@isha-apac/libs": ["dist/isha-apac"]
+      "@isha-apac/ngx-cli-library": ["dist/ngx-cli-library"]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
