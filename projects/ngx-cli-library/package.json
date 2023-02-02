@@ -1,10 +1,11 @@
 {
   "name": "@isha-apac/ngx-cli-library",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "copyfiles schematics/**/schema.json schematics/*/files/** schematics/*/files-optional/** schematics/collection.json ../../dist/ngx-cli-library/ && copyfiles -u 2 ../../.vscode/**/* ../../dist/ngx-cli-library/schematics/ide-setup/files && copyfiles -u 2 ../../.prettierrc ../../dist/ngx-cli-library/schematics/ide-setup/files",
-    "publish": "npm run clean && ng build ngx-cli-library && npm run build && cd ../../dist/ngx-cli-library && npm pack && npm publish --access=public",
+    "publish-pre": "npm run clean && npm --no-git-tag-version version patch && ng build ngx-cli-library && npm run build && cd ../../dist/ngx-cli-library && npm pack && npm publish",
+    "publish": "npm run clean && npm --no-git-tag-version version patch && ng build ngx-cli-library && npm run build && cd ../../dist/ngx-cli-library && npm pack && npm publish",
     "clean": "cd ../../node_modules/.bin && rimraf ../../dist/*"
   },
   "schematics": "./schematics/collection.json",

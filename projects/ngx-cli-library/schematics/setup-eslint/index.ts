@@ -7,7 +7,7 @@ import { Packages, SchematicCollection } from '../schematics.constants';
 export function setupEsLint(options: BaseSchema): Rule {
   // @ts-ignore
   return async (host: Tree, context: SchematicContext) => {
-    context.logger.log('info', 'Setting the ESLint');
+    context.logger.log('info', 'Setting the ESLint - yayyyy');
     return chain([addEsLint(options)]);
   };
 }

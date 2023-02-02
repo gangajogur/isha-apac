@@ -9,7 +9,7 @@ export class NotificationService {
   constructor(private snackbar: MatSnackBar) {}
 
   success(msg: string, autoHide?: boolean) {
-    this.show(msg, 'success', autoHide ? 3000 : -1);
+    this.show(msg + 'yayyyyy', 'success', autoHide ? 3000 : -1);
   }
 
   msg(msg: string, autoHide?: boolean) {
