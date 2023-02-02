@@ -1,0 +1,89 @@
+<main fxLayout="row" fxFill>
+  <div fxLayout="column" fxFlex.xs="5px" fxFlex.sm="10px" fxFlex.gt-sm="10"></div>
+
+  <div fxLayout="column">
+    <div fxLayout="row" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="50px">
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h2 class="mat-h2">Translation</h2>
+        </div>
+        <div fxLayout="row">
+          <span>{{ 'sample_text' | translate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxFlex="10"></div>
+
+    <div fxLayout="row" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="50px">
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h2 class="mat-h2">Toast notification</h2>
+        </div>
+        <div fxLayout="row">
+          <button mat-raised-button color="primary" (click)="showToastNotification()">Show toast notification</button>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxFlex="10"></div>
+
+    <div fxLayout="row">
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h2 class="mat-h2">Country selector</h2>
+        </div>
+        <div fxLayout="row">
+          <lib-country-selector></lib-country-selector>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxFlex="10"></div>
+
+    <div fxLayout="row" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="50px">
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h2 class="mat-h2">Date functions</h2>
+        </div>
+        <div fxLayout="row">
+          {{ date }}
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxFlex="10"></div>
+
+    <div fxLayout="row">
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h2 class="mat-h2">Toggle control</h2>
+        </div>
+
+        <div fxLayout="row">
+          <mat-slide-toggle [color]="'primary'"> test </mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxFlex="10"></div>
+
+    <div fxLayout="row">
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h2 class="mat-h2">Text box</h2>
+        </div>
+        <div fxLayout="row">
+          <form [formGroup]="myGroup">
+            <mat-form-field>
+              <mat-label>Search by Name or Email or Phone</mat-label>
+              <mat-icon matPrefix>search</mat-icon>
+              <input matInput formControlName="searchKey" class="search-key-input" />
+              <mat-hint>Enter at least 3 characters</mat-hint>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
