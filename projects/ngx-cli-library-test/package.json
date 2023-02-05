@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build-ngx-cli-library": "cd ../ngx-cli-library && npm run compile-test",
+    "install-ngx-cli-library": "npm uninstall @isha-apac/ngx-cli-library && npm run build-ngx-cli-library && npm i ../../dist/ngx-cli-library --install-links",
+    "install-ngx-cli-library-from-npm": "npm i @isha-apac/ngx-cli-library@latest",
+    "ng-add-ngx-cli-library": "npm run install-ngx-cli-library && ng g @isha-apac/ngx-cli-library:ng-add"
   },
   "private": true,
   "dependencies": {

@@ -54,13 +54,14 @@ export const Packages: PackagesList = {
   }
 };
 
-export const SharedModulePath = '/src/app/shared/shared.module.ts';
+export const SharedModulePath = 'src/app/shared/shared.module.ts';
 export const SharedModuleImportPath = './shared/shared.module';
-export const AppModulePath = '/src/app/app.module.ts';
+export const AppModulePath = 'src/app/app.module.ts';
 export const MaterialModuleImportPath = './material.module';
-export const TsConfigPath = '/tsconfig.json';
-export const AngularJsonPath = '/angular.json';
-export const PrettierPath = '/.prettierrc';
+export const TsConfigPath = 'tsconfig.json';
+export const PackageJsonPath = 'package.json';
+export const AngularJsonPath = 'angular.json';
+export const PrettierPath = '.prettierrc';
 
 export const SchematicCollection = {
   SetupIde: 'setup-ide',

@@ -1,10 +1,21 @@
-import { virtualFs, workspaces } from '@angular-devkit/core';
-import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { normalize, virtualFs, workspaces } from '@angular-devkit/core';
+import {
+  apply,
+  MergeStrategy,
+  mergeWith,
+  move,
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+  url
+} from '@angular-devkit/schematics';
 import { NodePackageInstallTask, RunSchematicTask } from '@angular-devkit/schematics/tasks';
 import { applyToUpdateRecorder, Change } from '@schematics/angular/utility/change';
 import { addPackageJsonDependency, NodeDependency, NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { BaseSchema } from '../base.schema';
-import { PackageInfo } from '../schematics.constants';
+import { PackageInfo, PackageJsonPath } from '../schematics.constants';
+import { getQualifiedPath } from './path.helper';
 
 export function createHost(tree: Tree): workspaces.WorkspaceHost {
   return {
@@ -61,13 +72,25 @@ export async function getProjectName(tree: Tree, baseSchema: BaseSchema) {
   return projectName;
 }
 
+export function moveFiles(options: BaseSchema, path = ``, mergeStrategy = MergeStrategy.Default): Rule {
+  return () => {
+    const templateSource = apply(url('./files'), [move(normalize(getQualifiedPath(options, path)))]);
+    return mergeWith(templateSource, mergeStrategy);
+  };
+}
+
 export async function getWorkspace(tree: Tree): Promise<workspaces.WorkspaceDefinition> {
   const host = createHost(tree);
   const { workspace } = await workspaces.readWorkspace('/', host);
   return workspace;
 }
 
-export function addPackagesJsonDependencies(host: Tree, context: SchematicContext, packages: PackageInfo[]) {
+export function addPackagesJsonDependencies(
+  host: Tree,
+  context: SchematicContext,
+  options: BaseSchema,
+  packages: PackageInfo[]
+) {
   const dependencies: NodeDependency[] = packages.map(
     pkg =>
       ({
@@ -78,7 +101,7 @@ export function addPackagesJsonDependencies(host: Tree, context: SchematicContex
   );
 
   dependencies.forEach(dependency => {
-    addPackageJsonDependency(host, dependency);
+    addPackageJsonDependency(host, dependency, getQualifiedPath(options, PackageJsonPath));
     context.logger.log('info', `✅️ Added "${dependency.name}" into ${dependency.type}`);
   });
 }
@@ -100,7 +123,7 @@ export function commitChange(host: Tree, modulePath: string, changes: Change[]) 
 
 export function ngAddExternal(packages: PackageInfo[], privateSchematicName: string, options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    addPackagesJsonDependencies(tree, context, packages);
+    addPackagesJsonDependencies(tree, context, options, packages);
     const installTaskId = context.addTask(new NodePackageInstallTask());
 
     // Chain won't work here since we need the externals to be actually installed before we call their schemas

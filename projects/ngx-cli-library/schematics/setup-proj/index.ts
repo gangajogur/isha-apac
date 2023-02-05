@@ -1,7 +1,8 @@
 import { chain, Rule, schematic, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { addModuleImportToModule } from '@angular/cdk/schematics';
-import { format, Options } from 'prettier';
 import { CompilerOptions } from 'typescript';
+import { getPrettierFormattedText } from '../helpers/json.formatter';
+import { getQualifiedPath } from '../helpers/path.helper';
 import { addPackagesJsonDependencies, cleanseJson, installPackageJsonDependencies } from '../helpers/schematics-helper';
 import { AppModulePath, Packages, PrettierPath, SchematicCollection, TsConfigPath } from '../schematics.constants';
 import { ProjectSchema } from './schema';
@@ -15,40 +16,42 @@ export function setupProject(options: ProjectSchema): Rule {
       schematic(SchematicCollection.SetupIde, options),
       schematic(SchematicCollection.SetupToastNotification, options),
       schematic(SchematicCollection.SetupAngularMaterial, options),
-      addProjectDependencies(),
+      addProjectDependencies(options),
       installPackageJsonDependencies(),
-      addImportExportToModule(),
-      updateTsConfigFile()
+      addImportExportToModule(options),
+      updateTsConfigFile(options)
     ]);
   };
 }
 
 // @ts-ignore
-function addImportExportToModule(): Rule {
+function addImportExportToModule(options: ProjectSchema): Rule {
   return (host: Tree) => {
-    addModuleImportToModule(host, AppModulePath, 'HttpClientModule', Packages.AngularCommonHttp.name);
-    addModuleImportToModule(host, AppModulePath, 'ReactiveFormsModule', Packages.AngularForms.name);
-    addModuleImportToModule(host, AppModulePath, 'FlexLayoutModule', Packages.AngularFlexLayout.name);
-    addModuleImportToModule(host, AppModulePath, 'FontAwesomeModule', Packages.FontAwesome.name);
-    addModuleImportToModule(host, AppModulePath, 'CoreModule', Packages.IshaApac.name);
+    const appModulePath = getQualifiedPath(options, AppModulePath);
+    addModuleImportToModule(host, appModulePath, 'HttpClientModule', Packages.AngularCommonHttp.name);
+    addModuleImportToModule(host, appModulePath, 'ReactiveFormsModule', Packages.AngularForms.name);
+    addModuleImportToModule(host, appModulePath, 'FlexLayoutModule', Packages.AngularFlexLayout.name);
+    addModuleImportToModule(host, appModulePath, 'FontAwesomeModule', Packages.FontAwesome.name);
+    addModuleImportToModule(host, appModulePath, 'CoreModule', Packages.IshaApac.name);
     return host;
   };
 }
 
 // @ts-ignore
-function addProjectDependencies(): Rule {
+function addProjectDependencies(options: ProjectSchema): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.AngularFlexLayout, Packages.FontAwesome];
-    addPackagesJsonDependencies(host, context, packages);
+    addPackagesJsonDependencies(host, context, options, packages);
     return host;
   };
 }
 
-function updateTsConfigFile(): Rule {
+function updateTsConfigFile(options: ProjectSchema): Rule {
   // @ts-ignore
   return (host: Tree, context: SchematicContext) => {
-    if (host.exists(TsConfigPath)) {
-      const currentTsConfigJson = host.read(TsConfigPath)?.toString('utf-8') || '';
+    const tsConfigPath = getQualifiedPath(options, TsConfigPath);
+    if (host.exists(tsConfigPath)) {
+      const currentTsConfigJson = host.read(tsConfigPath)?.toString('utf-8') || '';
       const json = JSON.parse(cleanseJson(currentTsConfigJson));
       const compilerOptions = json['compilerOptions'] as CompilerOptions;
       compilerOptions.paths = {
@@ -60,12 +63,8 @@ function updateTsConfigFile(): Rule {
         }
       };
 
-      const prettierConfig = host.read(PrettierPath)?.toString('utf-8') || '';
-      const prettierOptions = JSON.parse(prettierConfig) as Options;
-      prettierOptions.parser = 'json';
-
-      const formattedText = format(JSON.stringify(json, null, 2), prettierOptions);
-      host.overwrite(TsConfigPath, formattedText);
+      const formattedText = getPrettierFormattedText(host, options, json, PrettierPath);
+      host.overwrite(tsConfigPath, formattedText);
     }
     return host;
   };

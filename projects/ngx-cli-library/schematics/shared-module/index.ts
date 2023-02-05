@@ -1,67 +1,72 @@
-import { normalize } from '@angular-devkit/core';
-import { apply, chain, mergeWith, move, Rule, SchematicContext, Tree, url } from '@angular-devkit/schematics';
+import { chain, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { addSymbolToNgModuleMetadata, insertImport, parseSourceFile } from '@angular/cdk/schematics';
-import { commitChange } from '../helpers/schematics-helper';
+import { BaseSchema } from '../base.schema';
+import { getQualifiedPath } from '../helpers/path.helper';
+import { commitChange, moveFiles } from '../helpers/schematics-helper';
 import { Packages, SharedModulePath } from '../schematics.constants';
 
 // @ts-ignore
-export function setupSharedModule(): Rule {
+export function setupSharedModule(options: BaseSchema): Rule {
   // @ts-ignore
   return async (host: Tree, context: SchematicContext) => {
     context.logger.log('info', 'Setting up shared module');
-    return chain([copyResources(), copyOptionalFiles(), addInectionTokenProviderToModule()]);
+    return chain([copyResources(options), copyOptionalFiles(options), addInectionTokenProviderToModule(options)]);
   };
 }
 
-function copyResources(): Rule {
+function copyResources(options: BaseSchema): Rule {
   return () => {
-    const templateSource = apply(url('./files'), [move(normalize(``))]);
-    return mergeWith(templateSource);
+    // const templateSource = apply(url('./files'), [move(normalize(getQualifiedPath(options, '')))]);
+    // return mergeWith(templateSource);
+    return moveFiles(options);
   };
 }
 
-function copyOptionalFiles(): Rule {
+function copyOptionalFiles(options: BaseSchema): Rule {
   return (host: Tree) => {
-    if (host.exists(SharedModulePath)) {
+    const sharedModulePath = getQualifiedPath(options, SharedModulePath);
+    if (host.exists(sharedModulePath)) {
       return;
     }
-    const templateSource = apply(url('./files-optional'), [move(normalize(``))]);
-    return mergeWith(templateSource);
+    // const templateSource = apply(url('./files-optional'), [move(normalize(getQualifiedPath(options, '')))]);
+    // return mergeWith(templateSource);
+    return moveFiles(options);
   };
 }
 
-function addInectionTokenProviderToModule(): Rule {
+function addInectionTokenProviderToModule(options: BaseSchema): Rule {
   return (host: Tree) => {
-    if (!host.exists(SharedModulePath)) {
+    const sharedModulePath = getQualifiedPath(options, SharedModulePath);
+    if (!host.exists(sharedModulePath)) {
       return;
     }
 
-    const source = parseSourceFile(host, SharedModulePath);
+    const source = parseSourceFile(host, sharedModulePath);
 
     const exportChanges = addSymbolToNgModuleMetadata(
       source,
-      SharedModulePath,
+      sharedModulePath,
       'providers',
       `{provide: InjectionTokens.environment,useValue: environment}`,
       null
     );
-    commitChange(host, SharedModulePath, exportChanges);
+    commitChange(host, sharedModulePath, exportChanges);
 
     const injectionTokenImportChange = insertImport(
       source,
-      SharedModulePath,
+      sharedModulePath,
       'InjectionTokens',
       Packages.IshaApac.name
     );
-    commitChange(host, SharedModulePath, [injectionTokenImportChange]);
+    commitChange(host, sharedModulePath, [injectionTokenImportChange]);
 
     const environmentImportChange = insertImport(
       source,
-      SharedModulePath,
+      sharedModulePath,
       'environment',
       '../../environments/environment'
     );
-    commitChange(host, SharedModulePath, [environmentImportChange]);
+    commitChange(host, sharedModulePath, [environmentImportChange]);
 
     return host;
   };

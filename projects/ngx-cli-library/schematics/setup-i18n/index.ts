@@ -1,18 +1,8 @@
-import { normalize } from '@angular-devkit/core';
-import {
-  apply,
-  chain,
-  MergeStrategy,
-  mergeWith,
-  move,
-  Rule,
-  SchematicContext,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
+import { chain, MergeStrategy, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { addModuleImportToModule } from '@angular/cdk/schematics';
 import { BaseSchema } from '../base.schema';
-import { addPackagesJsonDependencies, installPackageJsonDependencies } from '../helpers/schematics-helper';
+import { getQualifiedPath } from '../helpers/path.helper';
+import { addPackagesJsonDependencies, installPackageJsonDependencies, moveFiles } from '../helpers/schematics-helper';
 import { AppModulePath, Packages } from '../schematics.constants';
 
 // @ts-ignore
@@ -23,19 +13,20 @@ export function setupI18n(options: BaseSchema): Rule {
 
     return chain([
       // schematic(SchematicCollection.SharedModule, options),
-      copyResources(),
-      addImportExportToModule(),
-      addi18nDependencies(),
+      copyResources(options),
+      addImportExportToModule(options),
+      addi18nDependencies(options),
       installPackageJsonDependencies()
     ]);
   };
 }
 
 // @ts-ignore
-function copyResources(): Rule {
+function copyResources(options: BaseSchema): Rule {
   return () => {
-    const templateSource = apply(url('./files'), [move(normalize(``))]);
-    return mergeWith(templateSource, MergeStrategy.Overwrite);
+    // const templateSource = apply(url('./files'), [move(normalize(getQualifiedPath(options, '')))]);
+    // return mergeWith(templateSource, MergeStrategy.Overwrite);
+    return moveFiles(options, '', MergeStrategy.Overwrite);
   };
 }
 
@@ -51,18 +42,18 @@ function copyResources(): Rule {
 // }
 
 // @ts-ignore
-function addImportExportToModule(): Rule {
+function addImportExportToModule(options: BaseSchema): Rule {
   return (host: Tree) => {
-    addModuleImportToModule(host, AppModulePath, 'I18NModule', Packages.IshaApac.name);
+    addModuleImportToModule(host, getQualifiedPath(options, AppModulePath), 'I18NModule', Packages.IshaApac.name);
     return host;
   };
 }
 
 // @ts-ignore
-function addi18nDependencies(): Rule {
+function addi18nDependencies(options: BaseSchema): Rule {
   return (host: Tree, context: SchematicContext) => {
     const packages = [Packages.NgxTranslate, Packages.JsYaml];
-    addPackagesJsonDependencies(host, context, packages);
+    addPackagesJsonDependencies(host, context, options, packages);
     return host;
   };
 }

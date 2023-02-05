@@ -14,6 +14,7 @@ import {
 import { addModuleImportToModule } from '@angular/cdk/schematics';
 import { BaseSchema } from '../base.schema';
 import { addFilesToStyles } from '../helpers/angular-json.helper';
+import { getQualifiedPath } from '../helpers/path.helper';
 import { ngAddExternal } from '../helpers/schematics-helper';
 import { AppModulePath, MaterialModuleImportPath, Packages, SchematicCollection } from '../schematics.constants';
 
@@ -24,9 +25,9 @@ export function setupAngularMaterial(options: BaseSchema): Rule {
     context.logger.log('info', 'Adding toast notification capabilities');
     return chain([
       addAngularMaterial(options),
-      copyResources(),
+      copyResources(options),
       addStylesToAngularJsonFile(options),
-      addImportExportToModule()
+      addImportExportToModule(options)
     ]);
   };
 }
@@ -54,9 +55,9 @@ function addAngularMaterial(options: BaseSchema): Rule {
 }
 
 // @ts-ignore
-function copyResources(): Rule {
+function copyResources(options: BaseSchema): Rule {
   return () => {
-    const templateSource = apply(url('./files'), [move(normalize(``))]);
+    const templateSource = apply(url('./files'), [move(normalize(getQualifiedPath(options, '')))]);
     return mergeWith(templateSource, MergeStrategy.Overwrite);
   };
 }
@@ -71,9 +72,9 @@ function addStylesToAngularJsonFile(options: BaseSchema): Rule {
 }
 
 // @ts-ignore
-function addImportExportToModule(): Rule {
+function addImportExportToModule(options: BaseSchema): Rule {
   return (host: Tree) => {
-    addModuleImportToModule(host, AppModulePath, 'MaterialModule', MaterialModuleImportPath);
+    addModuleImportToModule(host, getQualifiedPath(options, AppModulePath), 'MaterialModule', MaterialModuleImportPath);
     return host;
   };
 }

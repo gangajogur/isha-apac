@@ -6,23 +6,13 @@
     "postbuild": "copyfiles schematics/**/schema.json schematics/*/files/** schematics/*/files-optional/** schematics/collection.json ../../dist/ngx-cli-library/ && copyfiles -u 2 ../../.vscode/**/* ../../dist/ngx-cli-library/schematics/ide-setup/files && copyfiles -u 2 ../../.prettierrc ../../dist/ngx-cli-library/schematics/ide-setup/files",
     "publish-pre": "npm run clean && npm --no-git-tag-version version patch && ng build ngx-cli-library && npm run build && cd ../../dist/ngx-cli-library && npm pack && npm publish",
     "publish": "npm run clean && npm --no-git-tag-version version patch && ng build ngx-cli-library && npm run build && cd ../../dist/ngx-cli-library && npm pack && npm publish",
+    "compile": "npm run clean && ng build ngx-cli-library && npm run build && cd ../ngx-cli-library-test && npm link ../../dist/ngx-cli-library",
+    "compile-test": "npm run clean && ng build ngx-cli-library && npm run build && cd ../../dist/ngx-cli-library && npm pack",
     "clean": "cd ../../node_modules/.bin && rimraf ../../dist/*"
   },
   "schematics": "./schematics/collection.json",
   "ng-add": {
     "save": "devDependencies"
-  },
-  "peerDependencies": {
-    "@angular/cdk": "^14.2.5",
-    "@angular/common": "^14.2.7",
-    "@angular/core": "^14.2.7",
-    "@angular/flex-layout": "^14.0.0-beta.41",
-    "@angular/forms": "^14.2.7",
-    "@angular/material": "^14.2.5",
-    "@ngx-translate/core": "^14.0.0",
-    "dayjs": "^1.11.0",
-    "lodash": "^4.17.21",
-    "ngx-mat-select-search": "^4.1.2"
   },
   "dependencies": {
     "@angular/cdk": "^14.2.5",
